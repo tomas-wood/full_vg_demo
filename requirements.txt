@@ -1,0 +1,10 @@
+visual_genome==1.0.0
+matplotlib==2.2.2
+wget==3.2
+urllib3
+certifi
+Flask==1.0.2
+WTForms==2.2.1
+networkx==2.1
+Flask_WTF==0.14.2
+Pillow==5.2.0

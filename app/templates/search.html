@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Semantic Search</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.subject.label }}<br>
+            {{ form.subject(size=32) }}
+        </p>
+        <p>
+            {{ form.relationship.label }}<br>
+            {{ form.relationship(size=32) }}
+        </p>
+        <p>
+            {{ form.object.label }}<br>
+            {{ form.object(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+{% endblock %}

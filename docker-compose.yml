@@ -1,0 +1,18 @@
+version: '2.3'
+services:
+  web:
+    build: .
+    ports:
+     - "5000:5000"
+    environment:
+     - GES_API_TOKEN
+  detectron:
+    image: "aniketadnaik/detectron_srvc:version1"
+    runtime: nvidia
+    ports:
+     - "8085:8085"
+  scene_graph:
+    image: "aniketadnaik/sg_srvc:version1"
+    runtime: nvidia
+    ports:
+     - "8080:8080"
