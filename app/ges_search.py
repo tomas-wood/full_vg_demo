@@ -49,10 +49,9 @@ def get_results_for_edge(edge):
     q = query_for_edge(edge)
     fnames = []
     for x in q:
-        try:
-            fnames.append(visualize_image(x, edges=[edge]))
-        except:
-            print("Error in creating visualization. Continuing.")
+        print(x)
+        fnames.append(visualize_image(x, edges=[edge]))
+        #print("Error in creating visualization for edge {}. Continuing.".format(edge))
     print(edge)
     print(q)
     fnames = [fname.split('/')[-1] for fname in fnames]

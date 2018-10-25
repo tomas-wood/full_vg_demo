@@ -7,12 +7,12 @@ services:
     environment:
      - GES_API_TOKEN
   detectron:
-    image: "aniketadnaik/detectron_srvc:version1"
+    image: "odellus/detectron_srvc:version7"
     runtime: nvidia
     ports:
      - "8085:8085"
   scene_graph:
-    image: "aniketadnaik/sg_srvc:version1"
+    image: "odellus/sg_srvc:version3"
     runtime: nvidia
     ports:
      - "8080:8080"

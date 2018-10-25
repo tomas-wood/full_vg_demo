@@ -1,12 +1,18 @@
 # -*- coding: utf-8
 
+
+import json
+import os
+import urllib3
+import certifi
+
 from flask import render_template, flash, redirect, request, session, url_for, make_response
 from app import app
 from app.forms import SearchForm
 from ges_search import get_results_for_edge
-from visualize_data import visualize_image
-import os
 
+
+http = urllib3.PoolManager(cert_reqs="CERT_REQUIRED", ca_certs=certifi.where())
 
 DETECTRON_URL = os.environ.get('DETECTRON_URL')
 if DETECTRON_URL is None:
@@ -28,11 +34,12 @@ def index():
 def search():
     form = SearchForm()
     if request.method == 'POST':
-        img_url = request.form.get('img_url', 'https://www.dropbox.com/s/kkmrd2dcql6s82a/2.jpg')
-        res = http.request('PUT', DETECTRON_URL, fields={'url': img_url})
+        img_url = request.form.get('img_url', 'https://d3d00swyhr67nd.cloudfront.net/w1200h1200/STF/STF_STKMG_030.jpg')
+        res = http.request('POST', DETECTRON_URL, fields={'url': img_url})
         cls_boxes = res.data
         if cls_boxes:
-            sg_res = http.request('PUT', SCENEGRAPH_URL, fields={'url':img_url, 'data': cls_boxes})
+            sg_res = http.request('POST', SCENEGRAPH_URL, fields={'url':img_url, 'data': cls_boxes})
+            print(sg_res.status, sg_res.data)
         else:
             return make_response('That URL did not work. Try another one.')
 
@@ -61,7 +68,7 @@ def search():
                 fname_dict[x] = 1
 
         # Sort results by most commonly occuring image.
-        fname_list = [(x, fname_dict[x]) for x in fname_dict]
+        fname_list = [(fname_dict[x], x) for x in fname_dict]
         fname_list = sorted(fname_list, reverse=True)
         fname_list = [x[1] for x in fname_list]
         # Store these results in the session
@@ -75,3 +82,4 @@ def results():
     fnames = session['fnames']
     print(fnames)
     return render_template('results.html', fnames=fnames)
+ 
