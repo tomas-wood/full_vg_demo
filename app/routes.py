@@ -10,9 +10,10 @@ from flask import render_template, flash, redirect, request, session, url_for, m
 from app import app
 from app.forms import SearchForm
 from ges_search import get_results_for_edge
-
+from visualize_data import visualize_image
 
 http = urllib3.PoolManager(cert_reqs="CERT_REQUIRED", ca_certs=certifi.where())
+max_num_imgs = 10
 
 DETECTRON_URL = os.environ.get('DETECTRON_URL')
 if DETECTRON_URL is None:
@@ -71,8 +72,14 @@ def search():
         fname_list = [(fname_dict[x], x) for x in fname_dict]
         fname_list = sorted(fname_list, reverse=True)
         fname_list = [x[1] for x in fname_list]
+        fname_list = fname_list[:max_num_imgs]
+        for x in fname_list[:max_num_imgs]:
+            visualize_image(x, edges=[edge])
+
         # Store these results in the session
-        session['fnames'] = fnames
+        fname_list = [str(x) + '.png' for x in fname_list]
+        print(fname_list)
+        session['fnames'] = fname_list
         return redirect(url_for('results'))
     else:
         return render_template('search.html', title='Search', form=form)#, fnames=fnames)

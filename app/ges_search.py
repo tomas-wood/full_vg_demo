@@ -50,9 +50,10 @@ def get_results_for_edge(edge):
     fnames = []
     for x in q:
         print(x)
-        fnames.append(visualize_image(x, edges=[edge]))
+        #fnames.append(visualize_image(x, edges=[edge]))
         #print("Error in creating visualization for edge {}. Continuing.".format(edge))
+        fnames.append(x)
     print(edge)
     print(q)
-    fnames = [fname.split('/')[-1] for fname in fnames]
+    # fnames = [fname.split('/')[-1] for fname in fnames]
     return fnames
