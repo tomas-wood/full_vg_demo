@@ -29,6 +29,7 @@ url = "https://{}/v1.0/{}/graphs/{}/action?action_id={}".format(
 
 def query_for_edge(edge):
     obj1, rel, obj2 = edge
+    print(edge)
     query = \
     "g.V().has('LabelName', '{}').\
     outE().has('Predicate', '{}').\
@@ -37,11 +38,14 @@ def query_for_edge(edge):
         obj1, rel, obj2
     )
     data = {"command":query}
-
+    #print(json.dumps(data))
     r = http.request("POST", url, headers=headers, body=json.dumps(data))
-
+    #print(r.status)
     # We don't want a JSON string. We want a python dictionary.
     output = json.loads(r.data)
+    res = output.get('data')
+    if res is None:
+        print("You've got to set GES_TOKEN_API to a valid token")
     return list(set(output.get("data").get("outputs")[:-1]))
 
 

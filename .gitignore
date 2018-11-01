@@ -2,3 +2,4 @@ token
 app/*.pyc
 *.pyc
 /app/static/*
+*.swp
