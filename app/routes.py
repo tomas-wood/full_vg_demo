@@ -23,6 +23,23 @@ if SCENEGRAPH_URL is None:
     SCENEGRAPH_URL = 'http://0.0.0.0:8080/sg_srvc'
 
 
+def remove_underscore(x):
+    return x.split('_')[0]
+
+def split_edge_key(x):
+    return tuple(x.split('_'))
+
+def parse_edges(subs, rels, objs):
+    n = len(subs)
+    edge_dict = {}
+    for k in range(n):
+        edge = (subs[k], rels[k], objs[k])
+        edge = tuple(map(remove_underscore, edge))
+        edge_key = '_'.join(edge)
+        edge_dict[edge_key] = 1
+    return map(split_edge_key, edge_dict.keys())
+
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -40,7 +57,7 @@ def search():
         cls_boxes = res.data
         if cls_boxes:
             sg_res = http.request('POST', SCENEGRAPH_URL, fields={'url':img_url, 'data': cls_boxes})
-            print(sg_res.status, sg_res.data)
+            # print(sg_res.status, sg_res.data)
         else:
             return make_response('That URL did not work. Try another one.')
 
@@ -54,10 +71,9 @@ def search():
         assert len(subs) == len(objs) == len(rels)
 
         # Query Gremlin for the images in the database containing these edges.
-        N = len(subs)
+        edges = parse_edges(subs, rels, objs)
         fnames = []
-        for k in range(N):
-            edge = (subs[k], rels[k], objs[k])
+        for edge in edges:
 	    fnames.extend(get_results_for_edge(edge))
 
         # Histogram to find number of times an image shows up in our search.
@@ -78,7 +94,7 @@ def search():
 
         # Store these results in the session
         fname_list = [str(x) + '.png' for x in fname_list]
-        print(fname_list)
+        # print(fname_list)
         session['fnames'] = fname_list
         return redirect(url_for('results'))
     else:
@@ -87,6 +103,6 @@ def search():
 @app.route('/results', methods=['GET', 'POST'])
 def results():
     fnames = session['fnames']
-    print(fnames)
+    # print(fnames)
     return render_template('results.html', fnames=fnames)
  
