@@ -13,15 +13,16 @@ RUN apt-get update && \
     wget \
     python-dev \
     python-pip \
-    python-tk
+    python-tk \
+    unzip
 
 RUN pip install setuptools wheel futures
 
 RUN cd /app && \
     pip install -r requirements.txt
 
-WORKDIR "/app"
+#WORKDIR "/app"
 
-ENTRYPOINT ["python"]
+#ENTRYPOINT ["python"]
 
-CMD ["frontend.py"]
+#CMD ["frontend.py"]

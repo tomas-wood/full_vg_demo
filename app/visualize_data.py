@@ -11,11 +11,10 @@ import os
 import json
 urllib3.disable_warnings()
 
-VG_DIR = os.environ.get('HOME')+ '/visual_genome/'
-VG_IMG_DIR = VG_DIR + 'images/VG_100K/'
-VG_DATA_DIR = VG_DIR + 'data/'
+VG_DIR = '/app/visual_genome/'
+VG_IMG_DIR = VG_DIR + 'VG_100K/'
 
-def load_region_map(fname=VG_DATA_DIR+'region_descriptions.json'):
+def load_region_map(fname=VG_DIR+'region_descriptions.json'):
     with open(fname,'r') as f:
         return json.load(f)
 

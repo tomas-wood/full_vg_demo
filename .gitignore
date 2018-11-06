@@ -3,3 +3,4 @@ app/*.pyc
 *.pyc
 /app/static/*
 *.swp
+visual_genome
