@@ -12,6 +12,8 @@ import json
 urllib3.disable_warnings()
 
 VG_DIR = '/app/visual_genome/'
+if not os.path.exists(VG_DIR):
+    VG_DIR = './visual_genome/'
 VG_IMG_DIR = VG_DIR + 'VG_100K/'
 
 def load_region_map(fname=VG_DIR+'region_descriptions.json'):
