@@ -3,8 +3,8 @@
 genome dataset.
 2. Generate a GES API token using the technique found [here](https://github.com/huawei-tomas/genauth_gesapi)
 and set the environmental variable `GES_API_TOKEN` to the token value with a 
-command like `export GES_API_TOKEN=``cat /path/to/token``` . Email me to get the 
-environmental variables needed to access the GES API. It's easiest to place them
+command like `export GES_API_TOKEN=cat /path/to/token` but with the appropriate characters around `cat path/to/token`. 
+Email me to get the environmental variables needed to access the GES API. It's easiest to place them
 in a file like `/path/to/genauth_gesapi/.ges_environ` and source the file before
 generating an authorization key or turning the GES graph on or off.
 3. Clone https://github.com/huawei-tomas/detectron_service, cd into 
