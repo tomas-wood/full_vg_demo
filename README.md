@@ -13,6 +13,8 @@ detectron_service, and run
 nvidia-docker build -t odellus/detectron_srvc:version10 .
 ```
 to build a local version of the detectron service (having trouble pushing to 
-DockerHub because of a known [issue](https://github.com/docker/for-mac/issues/1396).
+DockerHub because of a known [issue](https://github.com/docker/for-mac/issues/1396).  
 4. Run `docker-compose up` to build the web server and pull the detectron 
-and scene graph services from DockerHub.
+and scene graph services from DockerHub*.  
+
+*This step is still untested.
