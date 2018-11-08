@@ -4,7 +4,11 @@ FROM ubuntu:xenial
 
 RUN mkdir /app
 
-COPY . /app
+COPY ./frontend.py /app
+
+COPY ./app /app/app
+
+COPY ./requirements.txt /app/requirements.txt
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -21,8 +25,10 @@ RUN pip install setuptools wheel futures
 RUN cd /app && \
     pip install -r requirements.txt
 
-#WORKDIR "/app"
+VOLUME ["/app/visual_genome"]
 
-#ENTRYPOINT ["python"]
+WORKDIR "/app"
 
-#CMD ["frontend.py"]
+ENTRYPOINT ["python"]
+
+CMD ["frontend.py"]

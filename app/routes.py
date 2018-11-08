@@ -22,6 +22,9 @@ SCENEGRAPH_URL = os.environ.get('SCENEGRAPH_URL')
 if SCENEGRAPH_URL is None:
     SCENEGRAPH_URL = 'http://0.0.0.0:8080/sg_srvc'
 
+print(DETECTRON_URL)
+print(SCENEGRAPH_URL)
+
 
 def remove_underscore(x):
     return x.split('_')[0]

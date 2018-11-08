@@ -6,13 +6,15 @@ services:
      - "5000:5000"
     environment:
      - GES_API_TOKEN
+    volumes:
+    - "/home/thomas/code/visual_genome:/app/visual_genome"
   detectron:
-    image: "odellus/detectron_srvc:version8"
+    image: "odellus/detectron_srvc:version11"
     runtime: nvidia
     ports:
      - "8085:8085"
   scene_graph:
-    image: "odellus/sg_srvc:version8"
+    image: "odellus/sg_srvc:version9"
     runtime: nvidia
     ports:
      - "8080:8080"
