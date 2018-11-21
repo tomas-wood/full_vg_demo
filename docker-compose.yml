@@ -9,7 +9,7 @@ services:
     volumes:
     - "/home/thomas/code/visual_genome:/app/visual_genome"
   detectron:
-    image: "odellus/detectron_srvc:version11"
+    image: "odellus/detectron_srvc:version9"
     runtime: nvidia
     ports:
      - "8085:8085"

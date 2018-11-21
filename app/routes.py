@@ -17,10 +17,10 @@ max_num_imgs = 10
 
 DETECTRON_URL = os.environ.get('DETECTRON_URL')
 if DETECTRON_URL is None:
-    DETECTRON_URL = 'http://0.0.0.0:8085/detectron'
+    DETECTRON_URL = 'detectron:8085/detectron'
 SCENEGRAPH_URL = os.environ.get('SCENEGRAPH_URL')
 if SCENEGRAPH_URL is None:
-    SCENEGRAPH_URL = 'http://0.0.0.0:8080/sg_srvc'
+    SCENEGRAPH_URL = 'scene_graph:8080/sg_srvc'
 
 print(DETECTRON_URL)
 print(SCENEGRAPH_URL)
@@ -56,7 +56,7 @@ def search():
     form = SearchForm()
     if request.method == 'POST':
         img_url = request.form.get('img_url', 'https://d3d00swyhr67nd.cloudfront.net/w1200h1200/STF/STF_STKMG_030.jpg')
-        res = http.request('POST', DETECTRON_URL, fields={'url': img_url})
+        res = http.request('POST', DETECTRON_URL, fields={'data': img_url})
         cls_boxes = res.data
         if cls_boxes:
             sg_res = http.request('POST', SCENEGRAPH_URL, fields={'url':img_url, 'data': cls_boxes})

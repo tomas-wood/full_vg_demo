@@ -21,7 +21,7 @@ def load_region_map(fname=VG_DIR+'region_descriptions.json'):
         return json.load(f)
 
 region_map = load_region_map()
-
+region_map = {x['id']:x['regions'] for x in region_map}
 
 
 def visualize_regions(image_id, regions):
@@ -73,7 +73,7 @@ def visualize_image(image_id, edges=None, region_range="all"):
     # image = vg.get_image_data(id=image_id)
 
     # TODO: load in the regions from a mapping we've downloaded
-    regions = region_map.get(str(image_id))
+    regions = region_map.get(image_id)
     fig = plt.gcf()
     fig.set_size_inches(18.5, 10.5)
     if edges is None:
