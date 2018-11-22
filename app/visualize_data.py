@@ -17,12 +17,11 @@ if not os.path.exists(VG_DIR):
     VG_DIR = '../visual_genome/'
 VG_IMG_DIR = VG_DIR + 'VG_100K/'
 
-def load_region_map(fname=VG_DIR+'region_descriptions.json'):
-    with open(fname,'r') as f:
-        return json.load(f)
-
-region_map = load_region_map()
-region_map = {x['id']:x['regions'] for x in region_map}
+# def load_region_map(fname=VG_DIR+'region_descriptions.json'):
+#     with open(fname,'r') as f:
+#         return json.load(f)
+#
+# region_map = load_region_map()
 
 
 def visualize_regions(image_id, regions):
