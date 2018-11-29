@@ -6,15 +6,9 @@ services:
      - "5000:5000"
     environment:
      - GES_API_TOKEN
-     - DISPLAY
     volumes:
+    # CHANGE THESE THEY WILL NOT WORK ELSEWHERE
     - /home/thomas/code/visual_genome:/app/visual_genome
-    - /home/thomas/code/vg_demo:/app
-    - /etc/group:/etc/group:ro
-    - /etc/passwd:/etc/passwd:ro
-    - /etc/shadow:/etc/shadow:ro
-    - /etc/sudoers.d:/etc/sudoers.d:ro
-    - /tmp/.X11-unix:/tmp/.X11-unix:rw
   detectron:
     image: "odellus/detectron_srvc:version9"
     runtime: nvidia

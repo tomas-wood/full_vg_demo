@@ -4,7 +4,7 @@ FROM ubuntu:xenial
 
 RUN mkdir /app
 
-COPY ./frontend.py /app
+COPY ./frontend.py /app/frontend.py
 
 COPY ./app /app/app
 
@@ -31,4 +31,4 @@ WORKDIR "/app"
 
 ENTRYPOINT ["python"]
 
-CMD ["frontend.py"]
+CMD ["./frontend.py"]

@@ -49,7 +49,7 @@ def visualize_regions(image_id, regions):
     #
     # fig = plt.gcf()
     # plt.tick_params(labelbottom=False, labelleft=False)
-    fname_dst = 'app/static/{}.png'.format(image_id)
+    fname_dst = '/app/app/static/{}.png'.format(image_id)
     shutil.copy(fname_src, fname_dst)
     # print("Saving {}".format(fname))
     # plt.savefig(fname)

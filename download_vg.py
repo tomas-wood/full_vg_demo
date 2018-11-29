@@ -33,5 +33,8 @@ def fetch_data():
     else:
         print("directory visual_genome already exists")
 
+    if not os.path.exists("./app/static"):
+        os.mkdir("./app/static")
+
 if __name__ == "__main__":
     fetch_data()
