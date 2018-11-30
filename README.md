@@ -14,7 +14,7 @@ nvidia-docker build -t odellus/detectron_srvc:version10 .
 ```
 to build a local version of the detectron service (having trouble pushing to 
 DockerHub because of a known [issue](https://github.com/docker/for-mac/issues/1396).-->  
-3. Change the line in docker-compose.yml from /home/thomas/code/visual_genome to the absolute path of visual genome at `../visual_genome`.
-3.5.  If you are using CUDA 9.0 then change the docker-compose.yml to pull odellus/detectron_srvc:version10 (or :version11).
+3. Change the line in docker-compose.yml from /home/thomas/code/visual_genome to the absolute path of visual genome at `../visual_genome`. If you are using CUDA 9.0 then change the docker-compose.yml to pull odellus/detectron_srvc:version10 (or :version11).
 4. Run `docker-compose up` to build the web server and pull the detectron 
 and scene graph services from DockerHub.
+5. Navigate to 0.0.0.0:5000 to view the demo.
