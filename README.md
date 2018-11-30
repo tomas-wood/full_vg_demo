@@ -1,7 +1,7 @@
 ### Install
 1. Run `python download_vg.py` from the command line to download the visual
 genome dataset.
-2. Generate a GES API token using the technique found [here](https://github.com/huawei-tomas/genauth_gesapi)
+2. Generate a GES API token using the technique found [here](https://github.com/huawei-tomas/GES-API)
 and set the environmental variable `GES_API_TOKEN` to the token value with a 
 command like `export GES_API_TOKEN=cat /path/to/token` but with the appropriate characters around `cat path/to/token`. 
 Email me to get the environmental variables needed to access the GES API. It's easiest to place them
