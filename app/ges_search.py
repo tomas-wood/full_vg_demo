@@ -46,7 +46,13 @@ def query_for_edge(edge):
     res = output.get('data')
     if res is None:
         print("You've got to set GES_TOKEN_API to a valid token")
-    return list(set(output.get("data").get("outputs")[:-1]))
+        return None
+    else:
+        outputs = res.get("outputs")[:-1]
+        if outputs is None:
+             print("something wrong with getting the outputs")
+             return None
+    return list(set(outputs))
 
 
 def get_results_for_edge(edge):
