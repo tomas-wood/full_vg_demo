@@ -29,15 +29,15 @@ max_num_imgs = 10
 DETECTRON_URL = os.environ.get('DETECTRON_URL')
 if DETECTRON_URL is None:
     # Using docker-compose
-    DETECTRON_URL = 'detectron:8085/detectron'
+    # DETECTRON_URL = 'detectron:8085/detectron'
     # Outside docker
-    # DETECTRON_URL = '0.0.0.0:8085/detectron'
+    DETECTRON_URL = '0.0.0.0:8085/detectron'
 SCENEGRAPH_URL = os.environ.get('SCENEGRAPH_URL')
 if SCENEGRAPH_URL is None:
     # Using docker-compose
-    SCENEGRAPH_URL = 'scene_graph:8080/sg_srvc'
+    # SCENEGRAPH_URL = 'scene_graph:8080/sg_srvc'
     # Outside docker
-    # SCENEGRAPH_URL = '0.0.0.0:8080/sg_srvc'
+    SCENEGRAPH_URL = '0.0.0.0:8080/sg_srvc'
 
 print(DETECTRON_URL)
 print(SCENEGRAPH_URL)
@@ -79,7 +79,7 @@ def gather_query_results(edges):
     return ["{}.png".format(x) for x in fname_list]
 
 
-class SemanticSearch(Resource):
+class SemanticSearchImage(Resource):
     def post(self):
         img_url = request.form["data"]
         res = http.request("POST", DETECTRON_URL, fields={"data": img_url})
@@ -110,7 +110,17 @@ class SemanticSearch(Resource):
             return jsonify([])
 
         edges = parse_edges(subs, rels, objs)
+        print(edges)
         fnames = gather_query_results(edges)
         return jsonify(fnames)
 
-api.add_resource(SemanticSearch, "/search")
+
+class SemanticSearchText(Resource):
+    def post(self):
+        edges_raw = request.form["data"]
+        edges = json.loads(edges_raw)
+        fnames = gather_query_results(edges)
+        return jsonify(fnames)
+
+api.add_resource(SemanticSearchImage, "/image_search")
+api.add_resource(SemanticSearchText, "/text_search")

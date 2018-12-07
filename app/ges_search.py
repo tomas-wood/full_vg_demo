@@ -58,6 +58,8 @@ def query_for_edge(edge):
 def get_results_for_edge(edge):
     q = query_for_edge(edge)
     fnames = []
+    if len(q) < 1:
+        return []
     for x in q:
         print(x)
         #fnames.append(visualize_image(x, edges=[edge]))
