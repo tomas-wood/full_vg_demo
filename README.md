@@ -18,3 +18,11 @@ DockerHub because of a known [issue](https://github.com/docker/for-mac/issues/13
 4. Run `docker-compose up` to build the web server and pull the detectron 
 and scene graph services from DockerHub.
 5. Point your client to 0.0.0.0:5000/search to access the demo API.
+
+<!-- 
+https://d3d00swyhr67nd.cloudfront.net/w1200h1200/STF/STF_STKMG_030.jpg
+https://media-cdn.tripadvisor.com/media/photo-s/04/35/6f/4e/vilamendhoo-island-resort.jpg
+http://www.performancewatersports.com/img/moomba-boats.jpg
+https://www.thenewsminute.com/sites/default/files/styles/news_detail/public/Kamali_surfergirl_7_750_JamieThomas.jpg?itok=DIpEaX8B
+https://images.pexels.com/photos/257894/pexels-photo-257894.jpeg
+-->
