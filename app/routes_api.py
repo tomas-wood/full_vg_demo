@@ -24,20 +24,20 @@ from visualize_data import visualize_image
 api = Api(app)
 
 http = urllib3.PoolManager(cert_reqs="CERT_REQUIRED", ca_certs=certifi.where())
-max_num_imgs = 10
+#max_num_imgs = 10
 
 DETECTRON_URL = os.environ.get('DETECTRON_URL')
 if DETECTRON_URL is None:
     # Using docker-compose
-    # DETECTRON_URL = 'detectron:8085/detectron'
+    DETECTRON_URL = 'detectron:8085/detectron'
     # Outside docker
-    DETECTRON_URL = '0.0.0.0:8085/detectron'
+    # DETECTRON_URL = '0.0.0.0:8085/detectron'
 SCENEGRAPH_URL = os.environ.get('SCENEGRAPH_URL')
 if SCENEGRAPH_URL is None:
     # Using docker-compose
-    # SCENEGRAPH_URL = 'scene_graph:8080/sg_srvc'
+    SCENEGRAPH_URL = 'scene_graph:8080/sg_srvc'
     # Outside docker
-    SCENEGRAPH_URL = '0.0.0.0:8080/sg_srvc'
+    # SCENEGRAPH_URL = '0.0.0.0:8080/sg_srvc'
 
 print(DETECTRON_URL)
 print(SCENEGRAPH_URL)
@@ -72,7 +72,7 @@ def gather_query_results(edges):
     fname_list = [(fname_dict[x], x) for x in fname_dict]
     fname_list = sorted(fname_list, reverse=True)
     fname_list = [x[1] for x in fname_list]
-    fname_list = fname_list[:max_num_imgs]
+    # fname_list = fname_list[:max_num_imgs]
     for x in fname_list:
         visualize_image(x, edges=[edge])
 

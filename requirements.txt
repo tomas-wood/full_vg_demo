@@ -5,8 +5,8 @@ urllib3
 certifi
 Flask==1.0.2
 WTForms==2.2.1
-networkx==2.1
 Flask_WTF==0.14.2
 Pillow==5.2.0
 gevent
 flask_restful
+flask_cors

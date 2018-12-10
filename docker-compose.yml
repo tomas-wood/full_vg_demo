@@ -7,10 +7,9 @@ services:
     environment:
      - GES_API_TOKEN
     volumes:
-    # CHANGE THESE THEY WILL NOT WORK ELSEWHERE
-    - /home/thomas/code/visual_genome:/app/visual_genome
+    - /home/visual_genome:/app/visual_genome
   detectron:
-    image: "odellus/detectron_srvc:version9"
+    image: "odellus/detectron_srvc:version10"
     runtime: nvidia
     ports:
      - "8085:8085"
