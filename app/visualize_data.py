@@ -52,9 +52,9 @@ def visualize_regions(image_id, regions):
 
 
     # When using docker-compose
-    # fname_dst = '/app/app/static/{}.png'.format(image_id)
+    fname_dst = '/app/app/static/{}.png'.format(image_id)
     # When using python frontend.py
-    fname_dst = './app/static/{}.png'.format(image_id)
+    # fname_dst = './app/static/{}.png'.format(image_id)
 
 
 

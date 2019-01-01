@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Semantic Image Search Demo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Titillium+Web:200,400,600');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css');
+
+    body {
+        font-family: Titillium Web;
+        background: radial-gradient(white 40%, #f0f4f8);
+    }
+    *, *:before, *:after {
+        box-sizing: border-box;
+    }
+
+    header {
+        padding: 8px 16px;
+        position: fixed;
+        top: 0;
+        font-size: 1.4em;
+        font-weight: 200;
+        line-height: normal;
+        width: 192px;
+        height: 100%;
+        box-shadow: 0 0 8px rgba(0,0,0,0.2)
+    }
+
+    .search-pane {
+        position: absolute;
+        left: 16px;
+        width: 160px;
+        padding: 0 8px;
+        border-top: 1px solid #0af;
+        border-bottom: 1px solid #0af;
+        font-size: 14px;
+        font-weight: 400;
+        border-radius: 8px;
+        background: rgba(0, 64, 128, 0.04);
+    }
+    .search-pane.image {
+        top: 122px;
+        height: 122px;
+    }
+    .search-pane.semantic {
+        top: 260px;
+        height: 208px;
+    }
+    .search-pane .title {
+        padding: 5px 0;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+    .search-pane .text-input {
+        padding: 5px 0;
+    }
+    .search-pane .text-input div:first-of-type {
+        font-size: 0.9em;
+        margin-bottom: 2px;
+        color: rgba(0, 0, 0, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        font-size: 0.7em;
+    }
+    .search-pane .text-input input {
+        width: 100%;
+        padding: 2px 4px;
+        border: none;
+        border-radius: 3px;
+        background: rgba(0,0,0,0.05);
+        box-shadow: inset 0 1px 4px -1px rgba(0,0,0,0.3), 0 1px 0 white;
+    }
+    .search-pane .text-input input:focus {
+        outline: none;
+        border: 1px solid #08f;
+        padding: 1px 3px;
+    }
+
+    .search-pane button {
+        border: none;
+        border-radius: 3px;
+        background: linear-gradient(#fff,#e4e8ec);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        padding: 5px 8px 7px;
+        margin: 8px 0 0;
+        width: 144px;
+        text-transform: lowercase;
+        font-variant: all-small-caps;
+        letter-spacing: 0.1em;
+        cursor: pointer;
+        font-weight: 600;
+        color: #555;
+    }
+    .search-pane button:focus {
+        outline: none;
+    }
+    .search-pane button:hover {
+        background: linear-gradient(#fff,#d8dcdf);
+    }
+    .search-pane button:active {
+        background: linear-gradient(#eee,#d8dcdf);
+    }
+
+    .results-wrapper {
+        margin: 0 0 0 192px;
+        padding: 6px;
+        overflow-y: auto;
+    }
+    .results img {
+        width: 240px;
+        margin: 6px;
+        cursor: pointer;
+    }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js" type="application/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+</head>
+<body>
+    <header>Visual Genome Semantic Image Search</header>
+
+    <div class="search-pane image">
+        <div class="title">Image Search</div>
+
+        <div class="text-input">
+            <div>Image URL</div>
+            <input type="text" value="http://www.performancewatersports.com/img/moomba-boats.jpg">
+        </div>
+
+        <button>Search</button>
+    </div>
+
+    <div class="search-pane semantic">
+        <div class="title">Semantic Search</div>
+
+        <div class="text-input">
+            <div>Subject</div>
+            <input type="text" value="man">
+        </div>
+
+        <div class="text-input">
+            <div>Predicate</div>
+            <input type="text" value="on">
+        </div>
+
+        <div class="text-input">
+            <div>Object</div>
+            <input type="text" value="skateboard">
+        </div>
+
+        <button>Search</button>
+    </div>
+
+    <div class="results-wrapper">
+        <div class="results">
+        </div>
+    </div>
+
+    <script>
+		var resultsWrapper = document.querySelector('.results-wrapper');
+		var imageInputs = document.querySelectorAll('.image input');
+		var semanticInputs = document.querySelectorAll('.semantic input');
+		var imagesD3;
+		var leftPaneWidth = 192;
+		var scrollbarWidth = 17;
+		var imageWidth = 252;
+		var apiUrl = 'http://114.115.249.32:5000';
+		// var sg_api_url = '0.0.0.0:5000/image_search';
+		// var sg_api_url_txt = '0.0.0.0:5000/text_search';
+
+		var msnry = new Masonry( '.results', {
+			itemSelector: 'img',
+			columnWidth: imageWidth
+		});
+
+		var onImageClick = function() {
+			if (this.offsetWidth === 240) {
+				this.style.width = (this.offsetWidth > this.offsetHeight) ? '736px' : '488px';
+			}
+			else {
+				this.style.width = '240px';
+			}
+
+			msnry.layout();
+		};
+
+		var doImageSearch = function() {
+			var params = new FormData();
+			params.append('data', imageInputs[0].value);
+
+			axios.post(apiUrl + '/image_search', params)
+                .then(buildImages);
+		};
+
+		var doSemanticSearch = function() {
+			var params = new FormData();
+			params.append('data', JSON.stringify([[
+				semanticInputs[0].value,
+                semanticInputs[1].value,
+                semanticInputs[2].value
+            ]]));
+
+			axios.post(apiUrl + '/text_search', params)
+				.then(buildImages);
+		};
+
+		var buildImages = function(data) {
+			var timeout;
+			var reLayout = function() {
+				if (!timeout) {
+					timeout = setTimeout(function() {
+						msnry.layout();
+						timeout = null;
+					}, 100);
+				}
+            };
+
+			if (imagesD3) {
+				imagesD3.remove();
+			}
+
+			imagesD3 = d3.select('.results')
+				.selectAll('img')
+				.data(data.data)
+				.enter()
+				.append('img')
+				.attr('src', function(d) { return apiUrl + '/static/' + d; })
+				.on('click', onImageClick)
+                .on('load', reLayout);
+
+			msnry.reloadItems();
+			reLayout;
+		};
+
+		document.querySelectorAll('button')[0].onclick = doImageSearch;
+		document.querySelectorAll('button')[1].onclick = doSemanticSearch;
+
+		var onResize = function() {
+			var resultsWidth = window.innerWidth - leftPaneWidth - scrollbarWidth - 12;
+
+			resultsWrapper.style.height = window.innerHeight + 'px';
+			resultsWrapper.style.paddingLeft = ((resultsWidth % imageWidth) / 2) + 6 + 'px';
+
+			setTimeout(function() {
+				msnry.layout();
+			}, 20);
+		};
+
+		window.onresize = onResize;
+		onResize();
+    </script>
+</body>
+</html>
