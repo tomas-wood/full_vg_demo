@@ -59,6 +59,7 @@ def get_results_for_edge(edge):
     q = query_for_edge(edge)
     fnames = []
     if len(q) < 1:
+        print("Have you set GES_API_TOKEN?")
         return []
     for x in q:
         print(x)

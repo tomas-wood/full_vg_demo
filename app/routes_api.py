@@ -29,15 +29,15 @@ max_num_imgs = 10
 DETECTRON_URL = os.environ.get('DETECTRON_URL')
 if DETECTRON_URL is None:
     # Using docker-compose
-    # DETECTRON_URL = 'detectron:8085/detectron'
+    DETECTRON_URL = 'detectron:8085/detectron'
     # Outside docker
-    DETECTRON_URL = '0.0.0.0:8085/detectron'
+    # DETECTRON_URL = '0.0.0.0:8085/detectron'
 SCENEGRAPH_URL = os.environ.get('SCENEGRAPH_URL')
 if SCENEGRAPH_URL is None:
     # Using docker-compose
-    # SCENEGRAPH_URL = 'scene_graph:8080/sg_srvc'
+    SCENEGRAPH_URL = 'scene_graph:8080/sg_srvc'
     # Outside docker
-    SCENEGRAPH_URL = '0.0.0.0:8080/sg_srvc'
+    #SCENEGRAPH_URL = '0.0.0.0:8080/sg_srvc'
 
 print(DETECTRON_URL)
 print(SCENEGRAPH_URL)
