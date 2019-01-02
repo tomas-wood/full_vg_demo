@@ -24,7 +24,7 @@ from visualize_data import visualize_image
 api = Api(app)
 
 http = urllib3.PoolManager(cert_reqs="CERT_REQUIRED", ca_certs=certifi.where())
-#max_num_imgs = 10
+max_num_imgs = 100
 
 DETECTRON_URL = os.environ.get('DETECTRON_URL')
 if DETECTRON_URL is None:
@@ -72,11 +72,11 @@ def gather_query_results(edges):
     fname_list = [(fname_dict[x], x) for x in fname_dict]
     fname_list = sorted(fname_list, reverse=True)
     fname_list = [x[1] for x in fname_list]
-    # fname_list = fname_list[:max_num_imgs]
-    for x in fname_list:
-        visualize_image(x, edges=[edge])
+    fname_list = fname_list[:max_num_imgs]
+    #for x in fname_list:
+    #    visualize_image(x, edges=[edge])
 
-    return ["{}.png".format(x) for x in fname_list]
+    return ["{}.jpg".format(x) for x in fname_list]
 
 
 class SemanticSearchImage(Resource):

@@ -2,8 +2,8 @@
 # -*- coding: utf-8
 
 import urllib3
-import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
+#import matplotlib.pyplot as plt
+#from matplotlib.patches import Rectangle
 from StringIO import StringIO
 from visual_genome import api as vg
 from PIL import Image as PIL_Image

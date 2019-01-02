@@ -1,7 +1,8 @@
+
 import urllib3
 import json
 import certifi
-from visualize_data import visualize_image
+#from visualize_data import visualize_image
 import os
 
 http = urllib3.PoolManager(cert_reqs="CERT_REQUIRED", ca_certs=certifi.where())
@@ -21,10 +22,14 @@ my_region = "ges.cn-north-1"
 # action = "stop"
 action = "execute-gremlin-query"
 
-base = "{}.myhuaweicloud.com".format(my_region)
-url = "https://{}/v1.0/{}/graphs/{}/action?action_id={}".format(
+base="192.168.0.180/ges"
+my_graph_id = "ges_abfe"
+url = "http://{}/v1.0/{}/graphs/{}/action?action_id={}".format(
+#base = "{}.myhuaweicloud.com".format(my_region)
+#url = "https://{}/v1.0/{}/graphs/{}/action?action_id={}".format(
     base, my_project_id, my_graph_id, action
     )
+print(url)
 
 
 def query_for_edge(edge):
@@ -38,17 +43,24 @@ def query_for_edge(edge):
         obj1, rel, obj2
     )
     data = {"command":query}
-    #print(json.dumps(data))
+    print(query)
+    print(json.dumps(data))
     r = http.request("POST", url, headers=headers, body=json.dumps(data))
-    #print(r.status)
+    print(r.status)
     # We don't want a JSON string. We want a python dictionary.
     output = json.loads(r.data)
-    res = output.get('data')
+    print(output)
+    if output is None:
+        print("something wrong with the GES API")
+        return None
+    else:
+        res = output.get('data')
     if res is None:
         print("You've got to set GES_TOKEN_API to a valid token")
         return None
     else:
-        outputs = res.get("outputs")[:-1]
+        outputs = res.get("results")
+        print(outputs)
         if outputs is None:
              print("something wrong with getting the outputs")
              return None
@@ -58,7 +70,7 @@ def query_for_edge(edge):
 def get_results_for_edge(edge):
     q = query_for_edge(edge)
     fnames = []
-    if len(q) < 1:
+    if q is None:
         return []
     for x in q:
         print(x)
@@ -69,3 +81,11 @@ def get_results_for_edge(edge):
     print(q)
     # fnames = [fname.split('/')[-1] for fname in fnames]
     return fnames
+
+
+def test_ges():
+    edge = ['man','on','skateboard']
+    print(query_for_edge(edge))
+
+if __name__ == "__main__":
+    test_ges()

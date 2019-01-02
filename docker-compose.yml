@@ -7,7 +7,7 @@ services:
     environment:
      - GES_API_TOKEN
     volumes:
-    - /home/visual_genome:/app/visual_genome
+    - /home/visual_genome/VG_100K:/app/app/static
   detectron:
     image: "odellus/detectron_srvc:version10"
     runtime: nvidia

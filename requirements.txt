@@ -1,5 +1,4 @@
 visual_genome==1.0.0
-matplotlib==2.2.2
 wget==3.2
 urllib3
 certifi
